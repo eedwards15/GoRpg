@@ -1,0 +1,7 @@
+{
+  "Scene": "Credits",
+  "BackgroundMusic": {
+    "Path": "music/Farewell_mp3.mp3",
+    "SampleRate": 44100
+  }
+}

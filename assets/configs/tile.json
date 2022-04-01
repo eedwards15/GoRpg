@@ -1,0 +1,7 @@
+{
+  "Scene": "Title",
+  "BackgroundMusic": {
+    "Path": "music/RPG Title 1.mp3",
+    "SampleRate": 44100
+  }
+}
