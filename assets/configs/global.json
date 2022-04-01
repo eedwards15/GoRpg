@@ -1,0 +1,10 @@
+{
+  "Scene": "Global",
+  "Fonts": [
+    {
+      "Key": "KennySquare",
+      "location":"fonts/",
+      "FileName": "kenpixel_square.ttf"
+    }
+  ]
+}
