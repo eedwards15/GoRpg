@@ -27,8 +27,13 @@ func NewMainMenu() *MainMenu {
 }
 
 func (m *MainMenu) Init() {
+	if m.loaded {
+		systems.MUSICSYSTEM.LoadSong(systems.ASSETSYSTEM.Assets["Title"].BackgroundMusic).PlaySong()
+	}
 
 	if !m.loaded {
+		systems.MUSICSYSTEM.PlaySong()
+
 		println("Init Main Menu")
 		fontFromSystem := systems.ASSETSYSTEM.Assets["Global"].Fonts["KennySquare"]
 		m.fontSize = 60

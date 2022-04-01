@@ -28,12 +28,13 @@ type Credits struct {
 
 func NewCredits() *Credits {
 	m := &Credits{}
-	m.FontSize = 60
+	m.FontSize = 30
 
 	return m
 }
 
 func (m *Credits) Init() {
+	systems.MUSICSYSTEM.LoadSong(systems.ASSETSYSTEM.Assets["Credits"].BackgroundMusic).PlaySong()
 	fontFromSystem := systems.ASSETSYSTEM.Assets["Global"].Fonts["KennySquare"]
 	m.menuFont, _ = opentype.NewFace(fontFromSystem, &opentype.FaceOptions{
 		Size:    float64(m.FontSize),
@@ -43,6 +44,11 @@ func (m *Credits) Init() {
 	m.nextIndex = 0
 	m.animationTicker = 700
 
+	s := fmt.Sprintf("Credits")
+	start := models.NewVector(float64(ui.CenterTextXPos(s, m.menuFont, systems.WINDOWMANAGER.ScreenWidth)), float64(m.FontSize))
+	end := models.NewVector(start.Xpos, float64(systems.WINDOWMANAGER.ScreenHeight+m.FontSize))
+	m.creditList = append(m.creditList, entities.NewAnimatedUiText(*end, *start, m.animationTicker, true, m.menuFont, s))
+
 	for i := 0; i < len(systems.ASSETSYSTEM.Credit); i++ {
 		record := systems.ASSETSYSTEM.Credit[i]
 
@@ -50,7 +56,7 @@ func (m *Credits) Init() {
 		typeOfS := v.Type()
 
 		for i := 0; i < v.NumField(); i++ {
-			s := fmt.Sprintf("%s: %v Testing", typeOfS.Field(i).Name, v.Field(i).Interface())
+			s := fmt.Sprintf("%s: %v", typeOfS.Field(i).Name, v.Field(i).Interface())
 			start := models.NewVector(float64(ui.CenterTextXPos(s, m.menuFont, systems.WINDOWMANAGER.ScreenWidth)), float64(m.FontSize))
 			end := models.NewVector(start.Xpos, float64(systems.WINDOWMANAGER.ScreenHeight+m.FontSize))
 			m.creditList = append(m.creditList, entities.NewAnimatedUiText(*end, *start, m.animationTicker, true, m.menuFont, s))
