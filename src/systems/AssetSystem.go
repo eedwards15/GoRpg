@@ -14,12 +14,15 @@ var ASSETSYSTEM *AssetSystem
 
 type AssetSystem struct {
 	Assets map[string]*models.SceneAssets
+	Credit []models.CreditConfig
 }
 
 func InitAssetSystem() {
 	ASSETSYSTEM = &AssetSystem{}
 	ASSETSYSTEM.Assets = make(map[string]*models.SceneAssets)
 	configValues, _ := loadAssetConfigs()
+	credits, _ := loadCredits()
+	ASSETSYSTEM.Credit = credits
 
 	var wg sync.WaitGroup
 	for i := 0; i < len(configValues); i++ {
@@ -56,4 +59,27 @@ func loadAssetConfigs() ([]*models.AssetConfig, error) {
 	}
 
 	return assetConfigs, nil
+}
+
+func loadCredits() ([]models.CreditConfig, error) {
+	files, err := assets.Assets.ReadDir("credits")
+	if err != nil {
+		fmt.Println("Failed Loading Configs")
+		log.Fatal(err)
+	}
+
+	configs := []models.CreditConfig{}
+	for _, file := range files {
+		if file.IsDir() {
+			continue
+		}
+
+		fileValue, _ := assets.Assets.ReadFile(path.Join("credits", file.Name()))
+		config := models.CreditConfig{}
+
+		json.Unmarshal(fileValue, &config)
+		configs = append(configs, config)
+	}
+
+	return configs, nil
 }
