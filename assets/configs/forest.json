@@ -1,0 +1,19 @@
+{
+  "Scene": "Forest",
+  "BackgroundMusic": {
+    "Path": "music/GameMusic_ForestTheme_24.mp3",
+    "SampleRate": 44100
+  },
+  "Images": [
+    {
+      "Key" : "DarkForest",
+      "location": "art/",
+      "FileName": "dark_forest.png"
+    },
+    {
+      "Key" : "LightForest",
+      "location": "art/",
+      "FileName": "light_forest_tileset_0.png"
+    }
+  ]
+}
