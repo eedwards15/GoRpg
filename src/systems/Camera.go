@@ -15,7 +15,7 @@
 package systems
 
 import (
-	"GoRpg/src/models"
+	"GoRpg/src/components"
 	"fmt"
 	"github.com/hajimehoshi/ebiten/v2"
 	"golang.org/x/image/math/f64"
@@ -27,16 +27,35 @@ type Camera struct {
 	Position        f64.Vec2
 	ZoomFactor      int
 	Rotation        int
-	FollowTransform *models.Vector
+	FollowTransform *components.Transform
 }
 
-func (c *Camera) Follow(vectorToFollow *models.Vector) {
+func (c *Camera) Follow(vectorToFollow *components.Transform) {
 
 	c.FollowTransform = vectorToFollow
 }
 func (c *Camera) Update() {
-	c.Position[0] = c.FollowTransform.Xpos - (c.viewportCenter()[0])
-	c.Position[1] = c.FollowTransform.Ypos - (c.ViewPort[1]) + 50
+	newX := c.FollowTransform.Xpos - c.viewportCenter()[0]
+	newY := c.FollowTransform.Ypos - (c.viewportCenter()[1]) - 20
+
+	if newX <= -(c.viewportCenter()[0]) {
+		newX = -(c.viewportCenter()[0])
+	}
+
+	if newX >= c.viewportCenter()[0] {
+		newX = (c.viewportCenter()[0])
+	}
+
+	if newY <= -(c.viewportCenter()[1]) {
+		newY = -(c.viewportCenter()[1])
+	}
+
+	if newY >= c.ViewPort[1]+c.viewportCenter()[1]+32 {
+		newY = c.ViewPort[1] + c.viewportCenter()[1] + 32
+	}
+
+	c.Position[0] = newX
+	c.Position[1] = newY
 }
 
 func (c *Camera) String() string {

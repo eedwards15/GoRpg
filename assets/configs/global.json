@@ -6,5 +6,12 @@
       "location":"fonts/",
       "FileName": "kenpixel_square.ttf"
     }
-  ]
+  ],
+  "Images": [
+    {
+      "Key" : "Player",
+      "location": "art/player/",
+      "FileName": "temp_player.png"
+    }
+    ]
 }

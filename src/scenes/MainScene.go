@@ -1,6 +1,7 @@
 package scenes
 
 import (
+	"GoRpg/src/entities"
 	"GoRpg/src/systems"
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/inpututil"
@@ -20,6 +21,8 @@ type MainScene struct {
 	world      *ebiten.Image
 	tileSize_s int
 	camera     systems.Camera
+
+	player *entities.Player
 }
 
 func NewMainScene() *MainScene {
@@ -31,11 +34,16 @@ func NewMainScene() *MainScene {
 func (m *MainScene) Init() {
 	systems.MUSICSYSTEM.LoadSong(systems.ASSETSYSTEM.Assets["Forest"].BackgroundMusic).PlaySong()
 	if !m.hasLoaded {
+		m.world = ebiten.NewImage(800, 800)
 		//Camera
-		m.camera = systems.Camera{ViewPort: f64.Vec2{200, 200}, ZoomFactor: 50}
+		m.camera = systems.Camera{ViewPort: f64.Vec2{200, 200}, ZoomFactor: 100}
+
+		m.player = entities.InitPlayer(10, 10, systems.ASSETSYSTEM.Assets["Global"].Images["Player"])
+
+		m.camera.Follow(&m.player.Transform)
 
 		m.tileSize_s = 32
-		m.world = ebiten.NewImage(800, 800)
+
 		mapPath := "assets/maps/Forest.tmx" // Path to your Tiled Map.
 		m.tileMap = systems.ASSETSYSTEM.Assets["Forest"].Images["DarkForest"]
 		m.gameMap, _ = tiled.LoadFile(mapPath)
@@ -56,6 +64,9 @@ func (m *MainScene) Update() error {
 	if inpututil.IsKeyJustReleased(ebiten.KeyEnter) || inpututil.IsKeyJustReleased(ebiten.KeyEscape) {
 		systems.SCENEMANAGER.Pop()
 	}
+
+	m.player.Update()
+	m.camera.Update()
 	return nil
 }
 
@@ -98,7 +109,10 @@ func (m MainScene) Draw(screen *ebiten.Image) {
 			m.world.DrawImage(tileImage, op)
 		}
 	}
+
+	m.player.Draw(m.world)
 	m.camera.Render(m.world, screen)
+
 }
 
 func (m MainScene) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeight int) {
