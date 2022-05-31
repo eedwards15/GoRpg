@@ -2,13 +2,13 @@ package scenes
 
 import (
 	"GoRpg/src/entities"
+	"GoRpg/src/helpers"
 	"GoRpg/src/systems"
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/inpututil"
 	"github.com/lafriks/go-tiled"
 	"golang.org/x/image/font"
 	"golang.org/x/image/font/opentype"
-	"golang.org/x/image/math/f64"
 	"strconv"
 )
 
@@ -22,7 +22,9 @@ type MainScene struct {
 	tileSize_s int
 	camera     systems.Camera
 
-	player *entities.Player
+	walls       []entities.Wall
+	spawnPoints []entities.SpawnPoint
+	player      *entities.Player
 }
 
 func NewMainScene() *MainScene {
@@ -36,11 +38,11 @@ func (m *MainScene) Init() {
 	if !m.hasLoaded {
 		m.world = ebiten.NewImage(800, 800)
 		//Camera
-		m.camera = systems.Camera{ViewPort: f64.Vec2{200, 200}, ZoomFactor: 100}
+		//m.camera = systems.Camera{ViewPort: f64.Vec2{800, 800}, ZoomFactor: 0}
 
 		m.player = entities.InitPlayer(10, 10, systems.ASSETSYSTEM.Assets["Global"].Images["Player"])
 
-		m.camera.Follow(&m.player.Transform)
+		//m.camera.Follow(&m.player.Transform)
 
 		m.tileSize_s = 32
 
@@ -55,6 +57,33 @@ func (m *MainScene) Init() {
 			DPI:     72,
 			Hinting: font.HintingFull,
 		})
+
+		for i := 0; i < len(m.gameMap.ObjectGroups); i++ {
+			layer := m.gameMap.ObjectGroups[i]
+			if layer.Name == "wall" {
+				for i := 0; i < len(layer.Objects); i++ {
+					record := layer.Objects[i]
+					newPlatform := entities.NewWall(record.X, record.Y, record.Width, record.Height)
+					m.walls = append(m.walls, *newPlatform)
+				}
+			}
+
+			if layer.Name == "runes" {
+				for i := 0; i < len(layer.Objects); i++ {
+					record := layer.Objects[i]
+					spawnPoint := entities.NewSpawnPoint(record.X, record.Y, systems.ASSETSYSTEM.Assets["Global"].Images["Rune"])
+					m.spawnPoints = append(m.spawnPoints, *spawnPoint)
+				}
+			}
+
+			if layer.Name == "start" {
+				record := layer.Objects[0]
+				m.player.Xpos = record.X
+				m.player.Ypos = record.Y
+			}
+
+		}
+
 	}
 
 }
@@ -63,6 +92,16 @@ func (m *MainScene) Update() error {
 
 	if inpututil.IsKeyJustReleased(ebiten.KeyEnter) || inpututil.IsKeyJustReleased(ebiten.KeyEscape) {
 		systems.SCENEMANAGER.Pop()
+	}
+
+	m.player.IsColliding = false
+
+	for i := 0; i < len(m.walls); i++ {
+		record := m.walls[i]
+		if helpers.Colision(record.Xpos, record.Ypos, record.Width, record.Height, m.player.Xpos, m.player.Ypos, float64(m.player.ImageWidth+(m.player.ImageWidth/2)), float64(m.player.ImageHeight)) {
+			m.player.IsColliding = true
+
+		}
 	}
 
 	m.player.Update()
@@ -110,7 +149,14 @@ func (m MainScene) Draw(screen *ebiten.Image) {
 		}
 	}
 
+	for _, sp := range m.spawnPoints {
+		op := &ebiten.DrawImageOptions{}
+		op.GeoM.Translate(sp.Xpos, sp.Ypos)
+		m.world.DrawImage(sp.CurrentImage, op)
+	}
+
 	m.player.Draw(m.world)
+
 	m.camera.Render(m.world, screen)
 
 }

@@ -9,6 +9,7 @@ import (
 type Player struct {
 	components.Transform
 	components.Sprite
+	IsColliding bool
 }
 
 func InitPlayer(x, y float64, image *ebiten.Image) *Player {
@@ -16,6 +17,7 @@ func InitPlayer(x, y float64, image *ebiten.Image) *Player {
 	p.Xpos = x
 	p.Ypos = y
 	p.SetSprite(image)
+	p.IsColliding = false
 	return p
 }
 
@@ -28,6 +30,8 @@ func (player *Player) Draw(image *ebiten.Image) {
 }
 
 func (player *Player) Update() {
+
+	println(player.IsColliding)
 
 	if ebiten.IsKeyPressed(ebiten.KeyD) && !inpututil.IsKeyJustReleased(ebiten.KeyD) {
 		player.Xpos += 5

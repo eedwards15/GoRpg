@@ -12,6 +12,11 @@
       "Key" : "Player",
       "location": "art/player/",
       "FileName": "temp_player.png"
+    },
+    {
+      "Key" : "Rune",
+      "location": "art/runes/",
+      "FileName": "10.png"
     }
     ]
 }

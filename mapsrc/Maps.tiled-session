@@ -3,8 +3,9 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "",
+    "activeFile": "/Users/eedwards/GitHub/GoRpg/assets/maps/Forest.tmx",
     "expandedProjectPaths": [
+        "/Users/eedwards/GitHub/GoRpg/assets/maps",
         "/Users/eedwards/GolandProjects/GoSadBoy/Assets/Levels"
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
@@ -30,14 +31,20 @@
             "scaleInEditor": 1
         },
         "/Users/eedwards/GitHub/GoRpg/assets/maps/Forest.tmx": {
-            "scale": 0.75,
-            "selectedLayer": 1,
+            "scale": 1.16,
+            "selectedLayer": 5,
             "viewCenter": {
-                "x": 389.33333333333337,
-                "y": 352.6666666666667
+                "x": 298.2758620689655,
+                "y": 241.81034482758622
             }
         },
+        "/Users/eedwards/GitHub/GoRpg/assets/maps/Runes.tsx": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
         "/Users/eedwards/GitHub/GoRpg/assets/maps/dark_forest.tsx": {
+            "dynamicWrapping": false,
             "scaleInDock": 1,
             "scaleInEditor": 1
         },
@@ -94,17 +101,21 @@
         }
     },
     "last.externalTilesetPath": "/Users/eedwards/GitHub/GoRpg/assets/maps",
-    "last.imagePath": "/Users/eedwards/GitHub/GoRpg/assets/art",
+    "last.imagePath": "/Users/eedwards/GitHub/GoRpg/assets/art/runes",
     "map.height": 25,
     "map.lastUsedFormat": "tmx",
     "map.tileHeight": 32,
     "map.tileWidth": 32,
     "map.width": 25,
     "openFiles": [
+        "/Users/eedwards/GitHub/GoRpg/assets/maps/Forest.tmx",
+        "/Users/eedwards/GitHub/GoRpg/assets/maps/Runes.tsx"
     ],
     "project": "Maps.tiled-project",
     "property.type": "int",
     "recentFiles": [
+        "/Users/eedwards/GitHub/GoRpg/assets/maps/Runes.tsx",
+        "/Users/eedwards/GitHub/GoRpg/assets/maps/Forest.tmx",
         "/Users/eedwards/GolandProjects/GoSadBoy/assets/maps/Level_1.tmx",
         "/Users/eedwards/GitHub/GoRpg/assets/maps/DarkForest.tsx",
         "/Users/eedwards/GitHub/GoRpg/assets/maps/dark_forest.tsx",
@@ -125,6 +136,6 @@
         "width": 32
     },
     "tileset.transparentColor": "#ffffff",
-    "tileset.type": 0,
+    "tileset.type": 1,
     "tileset.useTransparentColor": true
 }

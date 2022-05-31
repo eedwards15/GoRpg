@@ -10,7 +10,7 @@ import (
 
 func main() {
 	systems.InitAssetSystem()
-	systems.InitWindowManger(1920, 1080)
+	systems.InitWindowManger(800, 800)
 	systems.InitSceneManager()
 	systems.InitMusicSystem(systems.ASSETSYSTEM.Assets["Title"].BackgroundMusic)
 

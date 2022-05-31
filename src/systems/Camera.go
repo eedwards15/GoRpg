@@ -35,27 +35,29 @@ func (c *Camera) Follow(vectorToFollow *components.Transform) {
 	c.FollowTransform = vectorToFollow
 }
 func (c *Camera) Update() {
-	newX := c.FollowTransform.Xpos - c.viewportCenter()[0]
-	newY := c.FollowTransform.Ypos - (c.viewportCenter()[1]) - 20
+	if c.FollowTransform != nil {
+		newX := c.FollowTransform.Xpos - c.viewportCenter()[0]
+		newY := c.FollowTransform.Ypos - (c.viewportCenter()[1]) - 20
 
-	if newX <= -(c.viewportCenter()[0]) {
-		newX = -(c.viewportCenter()[0])
+		if newX <= -(c.viewportCenter()[0]) {
+			newX = -(c.viewportCenter()[0])
+		}
+
+		if newX >= c.viewportCenter()[0] {
+			newX = (c.viewportCenter()[0])
+		}
+
+		if newY <= -(c.viewportCenter()[1]) {
+			newY = -(c.viewportCenter()[1])
+		}
+
+		if newY >= c.ViewPort[1]+c.viewportCenter()[1]+32 {
+			newY = c.ViewPort[1] + c.viewportCenter()[1] + 32
+		}
+
+		c.Position[0] = newX
+		c.Position[1] = newY
 	}
-
-	if newX >= c.viewportCenter()[0] {
-		newX = (c.viewportCenter()[0])
-	}
-
-	if newY <= -(c.viewportCenter()[1]) {
-		newY = -(c.viewportCenter()[1])
-	}
-
-	if newY >= c.ViewPort[1]+c.viewportCenter()[1]+32 {
-		newY = c.ViewPort[1] + c.viewportCenter()[1] + 32
-	}
-
-	c.Position[0] = newX
-	c.Position[1] = newY
 }
 
 func (c *Camera) String() string {
